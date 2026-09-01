@@ -21,7 +21,7 @@
     + *分離可能な評価関数* \
       ある起点 $p$ に値が存在する場合のみ、目的地のマス $x$ へ向かう変位ベクトル（正負の向きを持つ距離） $d = x - p$ および起点 $p$ に依存する関数 $f_i(d, p)$ を引き、「到達候補」となる値 $V(p) - f_i(d, p)$ を生成する。これは次元ごとに独立して計算できる。
     + *演算の可換・結合・分配法則* \
-      複数の起点から同じマスに到達候補が集まった際、それらの集合を1つの値にまとめる集約演算 $plus.o$ について、計算の順番や組み合わせを変えても結果が変わらず（可換・結合的）、かつ「関数による変化量 $f_i(d, p)$ を引く」操作を後からまとめて行っても結果が等しい性質を持つ。
+      複数の起点から同じマスに到達候補が集まった際、それらの集合を1つの値にまとめる集約演算 $plus.circle$ について、計算の順番や組み合わせを変えても結果が変わらず（可換・結合的）、かつ「関数による変化量 $f_i(d, p)$ を引く」操作を後からまとめて行っても結果が等しい性質を持つ。
   ])
 ]
 #v(1em)
@@ -33,7 +33,7 @@
 
 - 値が存在しない状態は、特定のデフォルト値ではなく単なる「空集合 $emptyset$」として表す。
 - 作用素 $D_i$ は、存在する値のみを移動・変換し、移動先の座標に「到達候補値の集合」を生成する。
-- 集約演算 $plus.o$ は、要素が1つ以上ある集合に対してのみ適用され単一の値を返す。到着した集合が空（$emptyset$）の場合は、そのまま空集合となる。
+- 集約演算 $plus.circle$ は、要素が1つ以上ある集合に対してのみ適用され単一の値を返す。到着した集合が空（$emptyset$）の場合は、そのまま空集合となる。
 
 
 = 定理の証明
@@ -43,22 +43,22 @@ X方向の操作を $D_X$、Y方向の操作を $D_Y$ とする。空間上の�
 
 ある起点 $(p, q)$ の値が目的地 $(x, y)$ に到達するときの候補値は、$V(p,q) - f_X(x-p, p) - f_Y(y-q, q)$ のように計算される。
 
-まず、$D_X$ を適用した後の状態 $V_X$ を考える。これは、同じ高さ（Y座標 $q$）に存在する全ての横方向（X座標 $p$）からの候補値の集合に対し、集約演算 $plus.o$ を適用したものである。
-$V_X (x, q) = plus.o.big_p ( V(p, q) - f_X (x - p, p) )$
+まず、$D_X$ を適用した後の状態 $V_X$ を考える。これは、同じ高さ（Y座標 $q$）に存在する全ての横方向（X座標 $p$）からの候補値の集合に対し、集約演算 $plus.circle$ を適用したものである。
+$V_X (x, q) = plus.circle.big_p ( V(p, q) - f_X (x - p, p) )$
 
 次に、その結果に対して $D_Y$ を適用する。今度は、同じ縦の列（X座標 $x$）に存在する全ての縦方向（Y座標 $q$）からの影響をまとめる。
 $
-  V_(X Y) (x, y) & = plus.o.big_q ( V_X (x, q) - f_Y (y - q, q) ) \
-                 & = plus.o.big_q ( ( plus.o.big_p ( V(p, q) - f_X (x - p, p) ) ) - f_Y (y - q, q) )
+  V_(X Y) (x, y) & = plus.circle.big_q ( V_X (x, q) - f_Y (y - q, q) ) \
+                 & = plus.circle.big_q ( ( plus.circle.big_p ( V(p, q) - f_X (x - p, p) ) ) - f_Y (y - q, q) )
 $
 
-ここで、定理の前提条件である「分配法則」を用いる。集約演算 $plus.o$ に対して「関数を引く」操作は分配できるため、外側にある $- f_Y(y-q, q)$ を内側のまとまりの中に入れることができる。
-$V_(X Y) (x, y) = plus.o.big_q plus.o.big_p ( V(p, q) - f_X (x - p, p) - f_Y (y - q, q) )$
+ここで、定理の前提条件である「分配法則」を用いる。集約演算 $plus.circle$ に対して「関数を引く」操作は分配できるため、外側にある $- f_Y(y-q, q)$ を内側のまとまりの中に入れることができる。
+$V_(X Y) (x, y) = plus.circle.big_q plus.circle.big_p ( V(p, q) - f_X (x - p, p) - f_Y (y - q, q) )$
 
-さらに、集約演算 $plus.o$ は順番を問わないため、縦と横のどちらから計算をまとめても、全座標 $(p, q)$ の集合から一斉に集約することと同じになる。また、関数の適用（$f_X$ と $f_Y$）も独立しているため順番を入れ替えられる。
+さらに、集約演算 $plus.circle$ は順番を問わないため、縦と横のどちらから計算をまとめても、全座標 $(p, q)$ の集合から一斉に集約することと同じになる。また、関数の適用（$f_X$ と $f_Y$）も独立しているため順番を入れ替えられる。
 $
-  V_(X Y) (x, y) & = plus.o.big_(p, q) ( V(p, q) - f_X (x-p, p) - f_Y (y-q, q) ) \
-                 & = plus.o.big_p plus.o.big_q ( ( V(p, q) - f_Y (y - q, q) ) - f_X (x - p, p) ) \
+  V_(X Y) (x, y) & = plus.circle.big_(p, q) ( V(p, q) - f_X (x-p, p) - f_Y (y-q, q) ) \
+                 & = plus.circle.big_p plus.circle.big_q ( ( V(p, q) - f_Y (y - q, q) ) - f_X (x - p, p) ) \
                  & = D_X [D_Y [V]] (x, y)
 $
 
@@ -75,7 +75,7 @@ $
 移動先が一意に決定され、複数の起点が同一の目的地にマッピングされない操作である。到達する候補値の集合の要素数が常に1以下になるため、集約演算が不要となる。例えば、図形全体の平行移動や縮小の操作など。
 
 == 規則が必要な処理（単射ではない操作）
-波紋のような値の伝播など、同じ格子に複数の値が到達し得る操作である。この場合、適用される演算子 $plus.o$ は可換法則および結合法則を満たす必要がある。例えば以下のようなものである。
+波紋のような値の伝播など、同じ格子に複数の値が到達し得る操作である。この場合、適用される演算子 $plus.circle$ は可換法則および結合法則を満たす必要がある。例えば以下のようなものである。
 
 - 最大値（$max$）や最小値（$min$）：評価関数が「減算」で定義される場合に分配法則を満たす。
 - 加算（$+$）や乗算（$times$）：評価関数が「乗算」などで定義される場合に分配法則を満たす。
@@ -423,15 +423,48 @@ $
   & "Y方向移動 " (M): quad f_M(d, p) = cases(0 & (d = +1 text(" のとき")), +oo & (text("それ以外")))
 $
 
-これら3つの異なる演算を適用する順番を変えて、「$D_X -> M -> D_Y$」「$M -> D_Y -> D_X$」「$D_Y -> D_X -> M$」の3通りのルートで実行した結果を示す。中間の状態はそれぞれ異なるが、最終結果は完全に一致する。
+これら3つの異なる演算を適用する順番を変えて、「$D_X -> M -> D_Y$」「$M -> D_Y -> D_X$」「$D_Y -> D_X -> M$」の3通りのルートで実行した結果を示す。各ルートとも操作を1つ適用するごとに状態が遷移するため、初期状態と最終結果の間には中間状態が2個現れる。中間状態はルートごとに異なるが、最終結果は完全に一致する。
 
 #let cell-sm = 1.45em
-#let grid-sm(..content) = table(
+#let heat-max = 6
+#let heat-gradient = gradient.linear(
+  rgb("#1e5fb4"), // 低リスク（寒色）
+  rgb("#3fc6c6"),
+  rgb("#ffe066"),
+  rgb("#ff8c00"),
+  rgb("#d62828"), // 高リスク（暖色）
+)
+#let heat-t(v) = calc.min(1, calc.max(0, v / heat-max))
+#let heat-fill(v) = if v == none { none } else { heat-gradient.sample(heat-t(v) * 100%) }
+#let heat-text(v) = if v != none and heat-t(v) > 0.8 { white } else { black }
+#let heat-cell(v) = {
+  let bold = type(v) == array
+  let val = if bold { v.at(0) } else { v }
+  table.cell(fill: heat-fill(val))[
+    #set text(fill: heat-text(val))
+    #if val == none [] else if bold [*#val*] else [#val]
+  ]
+}
+#let grid-sm(values) = table(
   columns: (cell-sm, cell-sm, cell-sm, cell-sm, cell-sm),
   rows: (cell-sm, cell-sm, cell-sm, cell-sm, cell-sm),
   align: center + horizon,
-  ..content
+  ..values.map(heat-cell)
 )
+#let state-cell(title, values) = [
+  *#title*（値のあるマス: #values.filter(v => v != none).len() 個） \
+  #grid-sm(values)
+]
+
+#align(center)[
+  #stack(
+    dir: ltr,
+    spacing: 0.6em,
+    text(size: 8pt)[0],
+    box(width: 6em, height: 0.8em, fill: heat-gradient, stroke: 0.5pt + black),
+    text(size: 8pt)[6],
+  )
+]
 
 #v(1em)
 #align(center)[
@@ -441,361 +474,109 @@ $
     gutter: 0.8em,
 
     // ルート1
-    [*初期状態* \
-      #grid-sm(
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [*6*],
-        [],
-        [*6*],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-      )],
+    state-cell("初期状態", (
+      none, none, none, none, none,
+      none, (6,), none, (6,), none,
+      none, none, none, none, none,
+      none, none, none, none, none,
+      none, none, none, none, none,
+    )),
     [$arrow(D_X)$ \ X伝播],
-    [*状態1* \
-      #grid-sm(
-        [],
-        [],
-        [],
-        [],
-        [],
-        [4],
-        [6],
-        [4],
-        [6],
-        [4],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-      )],
+    state-cell("状態1", (
+      none, none, none, none, none,
+      4, 6, 4, 6, 4,
+      none, none, none, none, none,
+      none, none, none, none, none,
+      none, none, none, none, none,
+    )),
     [$arrow(M)$ \ Y移動],
-    [*状態2* \
-      #grid-sm(
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [4],
-        [6],
-        [4],
-        [6],
-        [4],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-      )],
+    state-cell("状態2", (
+      none, none, none, none, none,
+      none, none, none, none, none,
+      4, 6, 4, 6, 4,
+      none, none, none, none, none,
+      none, none, none, none, none,
+    )),
     [$arrow(D_Y)$ \ Y伝播],
-    [*最終結果* \
-      #grid-sm(
-        [],
-        [2],
-        [],
-        [2],
-        [],
-        [2],
-        [4],
-        [2],
-        [4],
-        [2],
-        [4],
-        [6],
-        [4],
-        [6],
-        [4],
-        [2],
-        [4],
-        [2],
-        [4],
-        [2],
-        [],
-        [2],
-        [],
-        [2],
-        [],
-      )],
+    state-cell("最終結果", (
+      none, 2, none, 2, none,
+      2, 4, 2, 4, 2,
+      4, 6, 4, 6, 4,
+      2, 4, 2, 4, 2,
+      none, 2, none, 2, none,
+    )),
 
     grid.cell(colspan: 7)[#v(1em)],
     // Spacer
 
     // ルート2
-    [*初期状態* \
-      #grid-sm(
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [*6*],
-        [],
-        [*6*],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-      )],
+    state-cell("初期状態", (
+      none, none, none, none, none,
+      none, (6,), none, (6,), none,
+      none, none, none, none, none,
+      none, none, none, none, none,
+      none, none, none, none, none,
+    )),
     [$arrow(M)$ \ Y移動],
-    [*状態1* \
-      #grid-sm(
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [*6*],
-        [],
-        [*6*],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-      )],
+    state-cell("状態1", (
+      none, none, none, none, none,
+      none, none, none, none, none,
+      none, (6,), none, (6,), none,
+      none, none, none, none, none,
+      none, none, none, none, none,
+    )),
     [$arrow(D_Y)$ \ Y伝播],
-    [*状態2* \
-      #grid-sm(
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [4],
-        [],
-        [4],
-        [],
-        [],
-        [6],
-        [],
-        [6],
-        [],
-        [],
-        [4],
-        [],
-        [4],
-        [],
-        [],
-        [2],
-        [],
-        [2],
-        [],
-      )],
+    state-cell("状態2", (
+      none, 2, none, 2, none,
+      none, 4, none, 4, none,
+      none, 6, none, 6, none,
+      none, 4, none, 4, none,
+      none, 2, none, 2, none,
+    )),
     [$arrow(D_X)$ \ X伝播],
-    [*最終結果* \
-      #grid-sm(
-        [],
-        [2],
-        [],
-        [2],
-        [],
-        [2],
-        [4],
-        [2],
-        [4],
-        [2],
-        [4],
-        [6],
-        [4],
-        [6],
-        [4],
-        [2],
-        [4],
-        [2],
-        [4],
-        [2],
-        [],
-        [2],
-        [],
-        [2],
-        [],
-      )],
+    state-cell("最終結果", (
+      none, 2, none, 2, none,
+      2, 4, 2, 4, 2,
+      4, 6, 4, 6, 4,
+      2, 4, 2, 4, 2,
+      none, 2, none, 2, none,
+    )),
 
     grid.cell(colspan: 7)[#v(1em)],
     // Spacer
 
     // ルート3
-    [*初期状態* \
-      #grid-sm(
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [*6*],
-        [],
-        [*6*],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-      )],
+    state-cell("初期状態", (
+      none, none, none, none, none,
+      none, (6,), none, (6,), none,
+      none, none, none, none, none,
+      none, none, none, none, none,
+      none, none, none, none, none,
+    )),
     [$arrow(D_Y)$ \ Y伝播],
-    [*状態1* \
-      #grid-sm(
-        [],
-        [4],
-        [],
-        [4],
-        [],
-        [],
-        [6],
-        [],
-        [6],
-        [],
-        [],
-        [4],
-        [],
-        [4],
-        [],
-        [],
-        [2],
-        [],
-        [2],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-      )],
+    state-cell("状態1", (
+      none, 4, none, 4, none,
+      none, 6, none, 6, none,
+      none, 4, none, 4, none,
+      none, 2, none, 2, none,
+      none, none, none, none, none,
+    )),
     [$arrow(D_X)$ \ X伝播],
-    [*状態2* \
-      #grid-sm(
-        [2],
-        [4],
-        [2],
-        [4],
-        [2],
-        [4],
-        [6],
-        [4],
-        [6],
-        [4],
-        [2],
-        [4],
-        [2],
-        [4],
-        [2],
-        [],
-        [2],
-        [],
-        [2],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-      )],
+    state-cell("状態2", (
+      2, 4, 2, 4, 2,
+      4, 6, 4, 6, 4,
+      2, 4, 2, 4, 2,
+      none, 2, none, 2, none,
+      none, none, none, none, none,
+    )),
     [$arrow(M)$ \ Y移動],
-    [*最終結果* \
-      #grid-sm(
-        [],
-        [2],
-        [],
-        [2],
-        [],
-        [2],
-        [4],
-        [2],
-        [4],
-        [2],
-        [4],
-        [6],
-        [4],
-        [6],
-        [4],
-        [2],
-        [4],
-        [2],
-        [4],
-        [2],
-        [],
-        [2],
-        [],
-        [2],
-        [],
-      )],
+    state-cell("最終結果", (
+      none, 2, none, 2, none,
+      2, 4, 2, 4, 2,
+      4, 6, 4, 6, 4,
+      2, 4, 2, 4, 2,
+      none, 2, none, 2, none,
+    )),
   )
 ]
 
